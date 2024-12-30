@@ -6,6 +6,7 @@ class SideBarButton extends StatelessWidget {
   final bool isCollapsed;
   final IconData icon;
   final String text;
+
   const SideBarButton({
     super.key,
     required this.isCollapsed,
@@ -17,25 +18,29 @@ class SideBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment:
-          isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
+      isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
           child: Icon(
             icon,
             color: AppColors.iconGrey,
             size: 22,
           ),
         ),
-        isCollapsed
-            ? const SizedBox()
-            : Text(
-                text,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+        if (!isCollapsed)
+          Flexible(
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
               ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
       ],
     );
   }
