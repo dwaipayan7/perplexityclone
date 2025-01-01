@@ -11,12 +11,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Perplexity Clone',
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.background,
         textTheme: GoogleFonts.interTextTheme(

@@ -49,7 +49,7 @@ class _SearchBarButtonState extends State<SearchBarButton> {
               Text(
                 widget.text,
                 style: TextStyle(color: AppColors.textGrey),
-              )
+              ),
             ],
           ),
         ),
