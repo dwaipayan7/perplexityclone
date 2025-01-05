@@ -32,6 +32,10 @@ class ChatWebService {
   void chat(String query) {
     print(query);
     print(_socket);
-    _socket!.send(json.encode({'query': query}));
+    _socket!.send(
+      json.encode(
+        {'query': query},
+      ),
+    );
   }
 }

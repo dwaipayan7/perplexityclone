@@ -4,7 +4,6 @@ import 'package:perplexityclone/sevice/chat_web_service.dart';
 import 'package:perplexityclone/theme/colors.dart';
 import 'package:perplexityclone/widgets/search_bar_button.dart';
 
-
 class SearchSection extends StatefulWidget {
   const SearchSection({super.key});
 
@@ -13,7 +12,6 @@ class SearchSection extends StatefulWidget {
 }
 
 class _SearchSectionState extends State<SearchSection> {
-
   final queryController = TextEditingController();
 
   @override
@@ -44,9 +42,13 @@ class _SearchSectionState extends State<SearchSection> {
             Container(
               width: 700,
               decoration: BoxDecoration(
+                color: AppColors.searchBar,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
                   color: AppColors.searchBar,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.searchBar, width: 1.5)),
+                  width: 1.5,
+                ),
+              ),
               child: Column(
                 children: [
                   Padding(
@@ -54,15 +56,14 @@ class _SearchSectionState extends State<SearchSection> {
                     child: TextField(
                       controller: queryController,
                       decoration: InputDecoration(
-                        hintText: "Search anything...",
-                        hintStyle: TextStyle(
-                          color: AppColors.textGrey,
-                          fontSize: 16,
-                        ),
-                        border: InputBorder.none,
-                        isDense: true,
-                        contentPadding: EdgeInsets.zero
-                      ),
+                          hintText: "Search anything...",
+                          hintStyle: TextStyle(
+                            color: AppColors.textGrey,
+                            fontSize: 16,
+                          ),
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.zero),
                     ),
                   ),
                   Padding(
@@ -82,7 +83,7 @@ class _SearchSectionState extends State<SearchSection> {
                         ),
                         Spacer(),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             ChatWebService().chat(queryController.text.trim());
                           },
                           child: Container(

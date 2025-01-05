@@ -18,10 +18,13 @@ class SideBarButton extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment:
-        isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
+            isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+            margin: EdgeInsets.symmetric(
+              vertical: 14,
+              horizontal: 10,
+            ),
             child: Icon(
               icon,
               color: AppColors.iconGrey,
@@ -31,12 +34,12 @@ class SideBarButton extends StatelessWidget {
           isCollapsed
               ? const SizedBox()
               : Text(
-            text,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          )
+                  text,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
         ],
       ),
     );

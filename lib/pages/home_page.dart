@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   String fullResponse = "";
 
   @override
@@ -38,17 +37,7 @@ class _HomePageState extends State<HomePage> {
                   child: SearchSection(),
                 ),
 
-                StreamBuilder(stream: ChatWebService().contentStream, builder: (context, snapshot){
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return Center(child: CircularProgressIndicator.adaptive(),);
-                  }
 
-                  fullResponse += snapshot.data?['data'] ?? '';
-
-                  return Text(fullResponse);
-                }
-
-                ),
 
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -118,10 +107,9 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 )
-                //footer
               ],
             ),
-          )
+          ),
         ],
       ),
     );
