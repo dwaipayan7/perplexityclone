@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: ChatPage(question: 'IND vs AUS Score?',),
+      home: HomePage(),
     );
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:perplexityclone/theme/colors.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+import '../sevice/chat_web_service.dart';
+import '../theme/colors.dart';
 
 class AnswerSection extends StatefulWidget {
   const AnswerSection({super.key});
@@ -10,77 +13,67 @@ class AnswerSection extends StatefulWidget {
 }
 
 class _AnswerSectionState extends State<AnswerSection> {
+  bool isLoading = true;
   String fullResponse = '''
-Australia has emerged victorious against India in the fifth Test of the Border-Gavaskar Trophy, clinching the series with a 3-1 win. Here are the key details of the match:
+As of the end of Day 1 in the fourth Test match between India and Australia, the score stands at **Australia 311/6**. The match is being held at the Melbourne Cricket Ground (MCG) on December 26, 2024.
 
-## Match Summary
-- **Date**: January 3, 2025
-- **Location**: Sydney Cricket Ground (SCG)
-- **Result**: Australia won by 6 wickets
+## Match Overview
+- **Toss**: Australia won the toss and opted to bat first.
+- **Top Performers**:
+  - **Steve Smith** is currently unbeaten on **68 runs** from **111 balls**.
+  - **Sam Konstas**, making his Test debut, scored a significant **60 runs** from **65 balls**, contributing to a strong start for Australia.
+  - Other notable contributions include Usman Khawaja and Marnus Labuschagne, both adding valuable runs to the total.
 
-## Innings Breakdown
-- **India's First Innings**: 185 all out
-  - Top Scorer: Rishabh Pant (40 runs)
-  - Notable Bowling Performance from Australia:
-    - Scott Boland: 4 wickets for 31 runs
-    - Mitchell Starc: 3 wickets for 49 runs
+## Session Highlights
+- In the first session, Australia reached **112 runs for the loss of one wicket**, with Konstas and Khawaja building an impressive opening partnership of **89 runs** before Konstas was dismissed by Ravindra Jadeja.
+- After lunch, Australia maintained their momentum but faced a collapse as Jasprit Bumrah struck back, taking crucial wickets that brought India back into contention. Australia went from a strong position of **223/2** to **263/5** at one point, losing three wickets for just nine runs.
 
-- **Australia's First Innings**: 181 all out
-  - Top Scorer: Beau Webster (57 runs)
-  - Notable Bowling Performance from India:
-    - Prasidh Krishna: 3 wickets for 42 runs
-    - Mohammed Siraj: 3 wickets for 51 runs
+## Bowling Performance
+- Indian bowlers had mixed success throughout the day. While Bumrah was effective in the latter stages, picking up key wickets, Jadeja also contributed by taking the first wicket of Konstas.
+- Other bowlers like Akash Deep and Washington Sundar chipped in with one wicket each, helping to restrict Australia's scoring after a dominant start.
 
-- **India's Second Innings**: 155 all out
-  - Top Scorer: Rishabh Pant (61 runs off just 33 balls)
-
-- **Australia's Second Innings**: Chased down the target, scoring 156 for the loss of 4 wickets.
-  - Key Contributions:
-    - Usman Khawaja (41 runs)
-    - Beau Webster (39 not out)
-
-## Match Highlights
-- The match was tightly contested, with a total of **15 wickets falling on Day 2** alone, showcasing a bowler-friendly pitch[2][3].
-- India managed a narrow first-innings lead of just **4 runs**, but struggled significantly in their second innings, leading to their eventual defeat[1][7].
-- Rishabh Pant's explosive batting in the second innings provided some hope for India, but ultimately it was not enough to secure a win[3][7].
-
-This victory marks Australia's first Border-Gavaskar Trophy win since the 2014-15 series and secures their place in the World Test Championship final against South Africa[1][7].
-
-Citations:
-[1] https://www.espncricinfo.com/series/australia-vs-india-2024-25-1426547/australia-vs-india-5th-test-1426559/match-report
-[2] https://indianexpress.com/article/sports/cricket/ind-vs-aus-5th-test-day-2-live-score-india-vs-australia-live-cricket-scorecard-updates-sydney-cricket-ground-9758758/lite/
-[3] https://indianexpress.com/article/sports/cricket/ind-vs-aus-5th-test-day-3-live-score-india-vs-australia-live-cricket-scorecard-updates-sydney-cricket-ground-9760210/
-[4] https://timesofindia.indiatimes.com/sports/cricket/india-vs-australia-5th-test-day-2-live-score-updates-border-gavaskar-trophy-2024-25-ind-vs-aus-live-streaming-online/liveblog/116926639.cms
-[5] https://www.espncricinfo.com/series/australia-vs-india-2024-25-1426547/australia-vs-india-4th-test-1426558/live-match-blog
-[6] https://timesofindia.indiatimes.com/sports/cricket/india-vs-australia-5th-test-day-3-live-score-updates-border-gavaskar-trophy-2024-25-ind-vs-aus-live-streaming-online/liveblog/116952476.cms
-[7] https://www.business-standard.com/cricket/news/india-vs-australia-live-cricket-score-5th-test-streaming-full-scorecard-ind-vs-aus-day-3-highlights-125010400473_1.html
-[8] https://www.hindustantimes.com/cricket/live-scorecard-aus-vs-ind-border-gavaskar-trophy-202425-5th-test-australia-vs-india-test-live-score-auin01032025243096
-[9] https://www.cricbuzz.com/live-cricket-scores/91814/ind-vs-aus-5th-test-india-tour-of-australia-2024-25
+## Current Situation
+As play concluded for the day, Australia stood at **311/6**, with Steve Smith holding firm as India looks to capitalize on their late breakthroughs on Day 2. The match remains finely balanced, with both teams having opportunities to seize control as they progress through this critical Test match in the Border-Gavaskar Trophy series[1][2][3][5].
 ''';
+
+  @override
+  void initState() {
+    super.initState();
+    ChatWebService().contentStream.listen((data) {
+      if (isLoading) {
+        fullResponse = "";
+      }
+      setState(() {
+        fullResponse += data['data'];
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Perplexity",
+        Text(
+          'Perplexity',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        // const SizedBox(height: 6),
-        Markdown(
-          data: fullResponse,
-          shrinkWrap: true,
-          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-            codeblockDecoration: BoxDecoration(
-              color: AppColors.cardColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            code: TextStyle(
-              fontSize: 16,
+        Skeletonizer(
+          enabled: isLoading,
+          child: Markdown(
+            data: fullResponse,
+            shrinkWrap: true,
+            styleSheet:
+            MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+              codeblockDecoration: BoxDecoration(
+                color: AppColors.cardColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              code: const TextStyle(fontSize: 16),
             ),
           ),
         ),
